@@ -10,7 +10,22 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
-    return view('welcome');
+    return view('square-payment');
 });
+*/
+
+Route::get('/', 'SquarePaymentController@index');
+Route::post('/', 'SquarePaymentController@processCard');
+
+/*
+Route::group(array('domain' => 'square-payment.laravel-package.test.local'), function () {
+    
+    Route::get('/', 'SquarePaymentController@index');
+
+    Route::post('/', 'SquarePaymentController@processCard');
+    
+});
+
+*/
