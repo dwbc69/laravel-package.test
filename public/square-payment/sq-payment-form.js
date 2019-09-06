@@ -1,7 +1,4 @@
-/**
- * Define callback function for "sq-button"
- * @param {*} event
- */
+/*
 function onGetCardNonce(event) {
 
     // Don't submit the form until SqPaymentForm returns with a nonce
@@ -68,10 +65,7 @@ function onGetCardNonce(event) {
     // SqPaymentForm callback functions
     callbacks: {
   
-      /*
-       * callback function: methodsSupported
-       * Triggered when: the page is loaded.
-       */
+     
       methodsSupported: function (methods) {
         if (!methods.masterpass && !methods.applePay && !methods.googlePay) {
           var walletBox = document.getElementById('sq-walletbox');
@@ -100,10 +94,7 @@ function onGetCardNonce(event) {
         }
       },
   
-      /*
-       * callback function: createPaymentRequest
-       * Triggered when: a digital wallet payment button is clicked.
-       */
+     
       createPaymentRequest: function () {
   
         var paymentRequestJson = {
@@ -141,22 +132,15 @@ function onGetCardNonce(event) {
         return paymentRequestJson;
       },
   
-      /*
-       * callback function: validateShippingContact
-       * Triggered when: a shipping address is selected/changed in a digital
-       *                 wallet UI that supports address selection.
-       */
+      
       validateShippingContact: function (contact) {
   
         var validationErrorObj ;
-        /* ADD CODE TO SET validationErrorObj IF ERRORS ARE FOUND */
+      
         return validationErrorObj ;
       },
   
-      /*
-       * callback function: cardNonceResponseReceived
-       * Triggered when: SqPaymentForm completes a card nonce request
-       */
+    
       cardNonceResponseReceived: function(errors, nonce, cardData, billingContact, shippingContact) {
         if (errors){
           var error_html = "";
@@ -179,47 +163,58 @@ function onGetCardNonce(event) {
   
       },
   
-      /*
-       * callback function: unsupportedBrowserDetected
-       * Triggered when: the page loads and an unsupported browser is detected
-       */
       unsupportedBrowserDetected: function() {
-        /* PROVIDE FEEDBACK TO SITE VISITORS */
+       
       },
   
-      /*
-       * callback function: inputEventReceived
-       * Triggered when: visitors interact with SqPaymentForm iframe elements.
-       */
       inputEventReceived: function(inputEvent) {
         switch (inputEvent.eventType) {
           case 'focusClassAdded':
-            /* HANDLE AS DESIRED */
             break;
           case 'focusClassRemoved':
-            /* HANDLE AS DESIRED */
             break;
           case 'errorClassAdded':
-            /* HANDLE AS DESIRED */
             break;
           case 'errorClassRemoved':
-            /* HANDLE AS DESIRED */
             break;
           case 'cardBrandChanged':
-            /* HANDLE AS DESIRED */
             break;
           case 'postalCodeChanged':
-            /* HANDLE AS DESIRED */
             break;
         }
       },
   
-      /*
-       * callback function: paymentFormLoaded
-       * Triggered when: SqPaymentForm is fully loaded
-       */
       paymentFormLoaded: function() {
-        /* HANDLE AS DESIRED */
       }
     }
   });
+  */
+
+ function onGetCardNonce(event) {
+  event.preventDefault();
+  paymentForm.requestCardNonce();
+}
+
+const paymentForm = new SqPaymentForm({
+     applicationId: applicationId,
+      card: {
+        elementId: 'sq-card',
+      },
+
+      callbacks: {
+        cardNonceResponseReceived: function(errors, nonce, paymentData, contacts) {
+          if (errors) {
+            console.error('Encountered errors on card nonce received:');
+            errors.forEach(function (error) {
+              console.error('  ' + error.message);
+            });
+            alert('Encountered errors, check console for more details');
+            return;
+          } else {
+            alert(`The generated nonce is:\n${nonce}`);
+            document.getElementById('card-nonce').value = nonce;
+            document.getElementById('nonce-form').submit();
+          }
+        }
+      }
+   });

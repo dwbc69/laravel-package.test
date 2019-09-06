@@ -15,7 +15,7 @@ class SquarePaymentController extends Controller
         
                 $access_token = (env('USE_PROD'))?env('PROD_ACCESS_TOKEN'):env('SANDBOX_ACCESS_TOKEN');
                 $host_url = (env('USE_PROD'))?"https://connect.squareup.com":"https://connect.squareupsandbox.com";
-                $api_config = new \SquareConnect\Configuration();
+                /*$api_config = new \SquareConnect\Configuration();
                 $api_config->setHost($host_url);
                 $api_config->setAccessToken($access_token);
                 $api_client = new \SquareConnect\ApiClient($api_config);
@@ -40,9 +40,9 @@ class SquarePaymentController extends Controller
                 dd($result);
                 } catch (\SquareConnect\ApiException $e) {
                 dd($e->getResponseBody(),$e->getResponseHeaders());
-                }
+                }*/
 
-              /*  # setup authorization
+               # setup authorization
                 $api_config = new \SquareConnect\Configuration();
                 $api_config->setHost($host_url);
                 $api_config->setAccessToken($access_token);
@@ -66,14 +66,14 @@ class SquarePaymentController extends Controller
                 $body->setLocationId($location_id);
 
                 $body->setIdempotencyKey(uniqid());
-                // dd($body,$nonce);
                 try {
                     $result = $payments_api->createPayment($body);
-                    dd($result);
+                    $payment = $result->getPayment();
+                    dd($payment['card_details']['card']['last_4']);
                 } catch (\SquareConnect\ApiException $e) {
                     
                     dd($e->getResponseBody());
-                }*/
+                }
 
 
 

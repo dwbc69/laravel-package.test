@@ -17,30 +17,11 @@
 <body>
   <!-- Begin Payment Form -->
   <div class="sq-payment-form">
-    <!--
-      Square's JS will automatically hide these buttons if they are unsupported
-      by the current device.
-    -->
-    <div id="sq-walletbox">
-      <button id="sq-google-pay" class="button-google-pay"></button>
-      <button id="sq-apple-pay" class="sq-apple-pay"></button>
-      <button id="sq-masterpass" class="sq-masterpass"></button>
-      <div class="sq-wallet-divider">
-        <span class="sq-wallet-divider__text">Or</span>
-      </div>
-    </div>
-    <div id="sq-ccbox">
-      <!--
-        You should replace the action attribute of the form with the path of
-        the URL you want to POST the nonce to (for example, "/process-card").
-        You need to then make a "Charge" request to Square's Payments API with
-        this nonce to securely charge the customer.
-        Learn more about how to setup the server component of the payment form here:
-        https://developer.squareup.com/docs/payments-api/overview
-      -->
+        <h1>Inster su credit card</h1>
       <form id="nonce-form" novalidate action="/" method="post">
          @csrf 
-        <div class="sq-field">
+         <div id="sq-card"></div>
+        <!--div class="sq-field">
           <label class="sq-label">Card Number</label>
           <div id="sq-card-number"></div>
         </div>
@@ -57,7 +38,7 @@
             <label class="sq-label">Postal</label>
             <div id="sq-postal-code"></div>
           </div>
-        </div>
+        </div-->
         <div class="sq-field">
           <button id="sq-creditcard" class="sq-button" onclick="onGetCardNonce(event)">
             Pay $1.00 Now
